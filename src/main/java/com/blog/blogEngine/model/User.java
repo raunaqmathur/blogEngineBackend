@@ -82,6 +82,11 @@ public class User implements Serializable {
 	public void setActive(int active) {
 		this.active = active;
 	}
+	
+	
+	public String getId() {
+		return id;
+	}
 
 	public User(){}
 	
@@ -99,7 +104,7 @@ public class User implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", userName=" + userName
+		return "User [firstName=" + firstName + ", lastName=" + lastName + ", userName=" + userName
 				+ ", password=" + password + ", email=" + email + ", dateCreated=" + dateCreated + ", active=" + active
 				+ "]";
 	}

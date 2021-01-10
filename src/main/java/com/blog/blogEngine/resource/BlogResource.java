@@ -65,6 +65,5 @@ public class BlogResource {
 			  return new ResponseEntity<Object>(new BlogCreationException("Error creating blog", ErrorCode.BLOG_CREATION_ERROR), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		  
-	  }
-	  
+	  }  
 }

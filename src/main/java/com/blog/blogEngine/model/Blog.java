@@ -77,7 +77,7 @@ public class Blog {
 
 	@Override
 	public String toString() {
-		return "Blog [id=" + id + ", user=" + user + ", website=" + website + ", name=" + name + ", dateCreated="
+		return "Blog [user=" + user + ", website=" + website + ", name=" + name + ", dateCreated="
 				+ dateCreated + ", active=" + active + "]";
 	}
 	
