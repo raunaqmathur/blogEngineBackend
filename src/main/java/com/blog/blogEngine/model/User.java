@@ -15,17 +15,17 @@ public class User implements Serializable {
 
 	@Id
 	private String id;	
-	public String firstName;
-	public String lastName;
+	private String firstName;
+	private String lastName;
 	
 	@Indexed(unique = true)
-	public String userName;
-	public String password;
-	public String email;
+	private String userName;
+	private String password;
+	private String email;
 	
 	@DateTimeFormat(iso = ISO.DATE_TIME)
-	public Date dateCreated;
-	public int active;
+	private Date dateCreated;
+	private int active;
 	
 	public String getFirstName() {
 		return firstName;
