@@ -67,13 +67,4 @@ public class BlogResource {
 		  
 	  }
 	  
-//	  @PostMapping("/deleteAccount")
-//	  @ResponseBody
-//	  public ResponseEntity<Object> deleteAccount(@RequestParam(name = "userName", required = true) String userName) {
-//		  int returnCode = userService.deleteAccount(userName);
-//		  if(returnCode == 0) {
-//			  return new ResponseEntity<Object>(new UserNotFoundException("user not found", ErrorCode.USER_NOT_FOUND), new HttpHeaders(), HttpStatus.BAD_REQUEST);
-//		  }
-//	      return new ResponseEntity<Object>("User account deactivated", new HttpHeaders(), HttpStatus.ACCEPTED);
-//	  }
 }
