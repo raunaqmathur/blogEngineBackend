@@ -9,12 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import com.blog.blogEngine.model.Blog;
 import com.blog.blogEngine.model.Post;
-import com.blog.blogEngine.model.User;
 
 @Repository
 public interface PostRepository extends MongoRepository<Post, String>{
 	
-	public List<Post> findByUser(User user);
+	@Query(value = "{ 'user': ?0, 'published' : true, 'active' : 1 }",
+			sort = "{ 'datePublished' : -1 }")
+	public List<Post> getAllPublishedPostByUserName(String userId);
 	public List<Post> findByBlog(Blog blog);
 	public List<Post> findByPublished(boolean published);
 	

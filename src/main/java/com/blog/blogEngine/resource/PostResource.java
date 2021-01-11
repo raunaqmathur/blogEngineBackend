@@ -33,12 +33,12 @@ public class PostResource {
 	  @Autowired
 	  PostService postService;
 	
-	  @GetMapping("/postByUser")
+	  @GetMapping("/post/user/getAllpublished")
 	  @ResponseBody
-	  public ResponseEntity<Object> getAllPostByUser(@RequestParam(name = "userName", required = true) String userName) {
+	  public ResponseEntity<Object> getAllPublishedPostByUser(@RequestParam(name = "userName", required = true) String userName) {
 		  ListPostResponse lstPostResponse;
 		try {
-			lstPostResponse = postService.findByUser(userName);
+			lstPostResponse = postService.getAllPublishedPostByUser(userName);
 			return new ResponseEntity<Object>(lstPostResponse, new HttpHeaders(), HttpStatus.ACCEPTED);
 		} catch (UserNotFoundException e) {
 			return new ResponseEntity<Object>(e, new HttpHeaders(), HttpStatus.BAD_REQUEST);

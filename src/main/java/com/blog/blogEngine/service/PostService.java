@@ -40,11 +40,10 @@ public class PostService {
 	@Autowired
 	private PostRepository postRepository;
 	
-	public ListPostResponse findByUser(String userName) throws UserNotFoundException {
+	public ListPostResponse getAllPublishedPostByUser(String userName) throws UserNotFoundException {
 		User user = userRepository.findByUserName(userName);
 		if(user != null) {
-				List<Post> listPosts = postRepository.findByUser(user);
-				Collections.sort(listPosts);
+				List<Post> listPosts = postRepository.getAllPublishedPostByUserName(user.getId());
 				List<PostResponse> lstPostResponse = new ArrayList<PostResponse>();
 				for(Post post : listPosts)
 					lstPostResponse.add(ModelConvertor.postToPostResponseConvertor(post));
