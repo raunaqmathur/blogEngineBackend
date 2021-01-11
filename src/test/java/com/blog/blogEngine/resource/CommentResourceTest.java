@@ -22,12 +22,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.blog.blogEngine.dal.BlogRepository;
+import com.blog.blogEngine.dal.CommentRepository;
 import com.blog.blogEngine.dal.PostRepository;
 import com.blog.blogEngine.dal.UserRepository;
 import com.blog.blogEngine.model.Blog;
+import com.blog.blogEngine.model.Comment;
 import com.blog.blogEngine.model.Post;
 import com.blog.blogEngine.model.User;
 import com.blog.blogEngine.resource.model.BlogRegistrationData;
+import com.blog.blogEngine.resource.model.CommentCreationData;
 import com.blog.blogEngine.resource.model.GetPublishedPostData;
 import com.blog.blogEngine.resource.model.PostCreationData;
 import com.blog.blogEngine.resource.model.PostUpdationData;
@@ -43,112 +46,57 @@ public class CommentResourceTest {
 	CommentResource commentResource;
 	CommentService commentService;
 	
-	BlogRepository blogRepository;
 	UserRepository userRepository;
 	PostRepository postRepository;
-	
+	CommentRepository commentRepository;
 	@BeforeEach
 	public void setup() {
 		commentResource = new CommentResource();
-		postService = new PostService();
+		commentService = new CommentService();
 		postRepository = Mockito.mock(PostRepository.class);
-		blogRepository = Mockito.mock(BlogRepository.class);
+		commentRepository = Mockito.mock(CommentRepository.class);
 		userRepository = Mockito.mock(UserRepository.class);
-		postService.postRepository = postRepository;
-		postService.userRepository = userRepository;
-		postService.blogRepository = blogRepository;
-		postResource.postService = postService;
+		commentService.postRepository = postRepository;
+		commentService.userRepository = userRepository;
+		commentService.commentRepository = commentRepository;
+		commentResource.commentService = commentService;
 	}
 	
 	@Test
-    public void verifyGetAllPublishedPostByUserPass() {
-		logger.info("Starting Test verifygetAllPublishedPostByUserPass");
+    public void verifyGetAllCommentsForPostPass() {
+		logger.info("Starting Test verifyGetAllCommentsForPostPass");
 		User userTest = new User("firstName", "lastName", "test", "password", "email", new Date(),1);
 		when(userRepository.findByUserName(anyString())).thenReturn(userTest);
 		Blog blog = new Blog(userTest, "website", "name", new Date(),1);
-		when(blogRepository.findByUser(any(User.class))).thenReturn(blog);
-		
 		Post post = new Post(userTest, blog, "message", "title", new Date(), false, null, "themeId", 1);
-		List<Post> lstPost = new ArrayList<Post>();
-		lstPost.add(post);
-		
-		when(postRepository.getAllPublishedPostByUserName(anyString())).thenReturn(lstPost);
-		
-		ResponseEntity<Object> response = postResource.getAllPublishedPostByUser("test");
+		Optional<Post> postRetrieved = Optional.of(post);
+		when(postRepository.findById(anyString())).thenReturn(postRetrieved);
+		Comment comment = new Comment(userTest, post, "message", new Date(), 1);
+		List<Comment> lstComments = new ArrayList<>();
+		lstComments.add(comment);
+		when(commentRepository.getAllCommentsForPost(anyString())).thenReturn(lstComments);
+		ResponseEntity<Object> response = commentResource.getAllCommentsForPost("postId");
 		assertEquals(response.getStatusCode(), HttpStatus.ACCEPTED);		
-		logger.info("Completed Test verifygetAllPublishedPostByUserPass");
+		logger.info("Completed Test verifyGetAllCommentsForPostPass");
     }
 	
 	@Test
-    public void verifyGetAllPublishedPostByUserFail() {
-		logger.info("Starting Test verifyGetAllPublishedPostByUserFail");
-		User userTest = new User("firstName", "lastName", "test", "password", "email", new Date(),1);
-		when(userRepository.findByUserName(anyString())).thenReturn(null);
-		ResponseEntity<Object> response = postResource.getAllPublishedPostByUser("test");
-		assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);		
-		logger.info("Completed Test verifyGetAllPublishedPostByUserFail");
-    }
-	
-	
-	@Test
-    public void verifycreatePostPass() {
-		logger.info("Starting Test verifycreatePostPass");
-		PostCreationData postCreationData = new PostCreationData("test", "message", "title", "theme");
-		
+    public void verifyCreatePostPass() {
+		logger.info("Starting Test verifyCreatePostPass");
 		User userTest = new User("firstName", "lastName", "test", "password", "email", new Date(),1);
 		when(userRepository.findByUserName(anyString())).thenReturn(userTest);
 		Blog blog = new Blog(userTest, "website", "name", new Date(),1);
-		when(blogRepository.findByUser(any(User.class))).thenReturn(blog);
-		
 		Post post = new Post(userTest, blog, "message", "title", new Date(), false, null, "themeId", 1);
-		when(postRepository.insert(any(Post.class))).thenReturn(post);
-		
-		ResponseEntity<Object> response = postResource.createPost(postCreationData);
+		Optional<Post> postRetrieved = Optional.of(post);
+		when(postRepository.findById(anyString())).thenReturn(postRetrieved);
+		Comment comment = new Comment(userTest, post, "message", new Date(), 1);
+		CommentCreationData commentCreationData = new CommentCreationData();
+		commentCreationData.setMessage("message");
+		commentCreationData.setPostId("postId");
+		commentCreationData.setUserName("userName");
+		when(commentRepository.insert(any(Comment.class))).thenReturn(comment);
+		ResponseEntity<Object> response = commentResource.createPost(commentCreationData);
 		assertEquals(response.getStatusCode(), HttpStatus.CREATED);		
-		logger.info("Completed Test verifycreatePostPass");
+		logger.info("Completed Test verifyCreatePostPass");
     }
-	
-	@Test
-    public void verifyUpdatPostPass() {
-		logger.info("Starting Test verifyUpdatPostPass");
-		PostUpdationData postUpdationData = new PostUpdationData("username", "message1", "title1", "theme1", "id");
-		
-		User userTest = new User("firstName", "lastName", "test", "password", "email", new Date(),1);
-		when(userRepository.findByUserName(anyString())).thenReturn(userTest);
-		Blog blog = new Blog(userTest, "website", "name", new Date(),1);
-		when(blogRepository.findByUser(any(User.class))).thenReturn(blog);
-		
-		Post post = new Post(userTest, blog, "message", "title", new Date(), false, null, "themeId", 1);
-		Optional<Post> optionalPost = Optional.of(post);
-		when(postRepository.findById(anyString())).thenReturn(optionalPost);
-		when(postRepository.save(any(Post.class))).thenReturn(post);
-		
-		ResponseEntity<Object> response = postResource.updatePost(postUpdationData);
-		assertEquals(response.getStatusCode(), HttpStatus.ACCEPTED);		
-		logger.info("Completed Test verifyUpdatPostPass");
-    }
-	
-	@Test
-    public void verifyGetPublishedPostsPass() {
-		logger.info("Starting Test verifyGetPublishedPostsPass");
-		GetPublishedPostData getPublishedPostData = new GetPublishedPostData();
-		getPublishedPostData.setStartDate(new Date());
-		getPublishedPostData.setEndDate(new Date());
-		User userTest = new User("firstName", "lastName", "test", "password", "email", new Date(),1);
-		when(userRepository.findByUserName(anyString())).thenReturn(userTest);
-		Blog blog = new Blog(userTest, "website", "name", new Date(),1);
-		when(blogRepository.findByUser(any(User.class))).thenReturn(blog);
-		
-		Post post = new Post(userTest, blog, "message", "title", new Date(), true, new Date(), "themeId", 1);
-		List<Post> lstPost = new ArrayList<Post>();
-		lstPost.add(post);
-		
-		when(postRepository.getAllPublishedPostByUserName(anyString())).thenReturn(lstPost);
-		
-		ResponseEntity<Object> response = postResource.getPublishedPosts(getPublishedPostData);
-		assertEquals(response.getStatusCode(), HttpStatus.ACCEPTED);			
-		logger.info("Completed Test verifyGetPublishedPostsPass");
-    }
-	
-	
 }

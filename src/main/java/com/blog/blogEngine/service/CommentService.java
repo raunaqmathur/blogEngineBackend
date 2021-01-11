@@ -8,26 +8,16 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.blog.blogEngine.dal.BlogRepository;
 import com.blog.blogEngine.dal.CommentRepository;
 import com.blog.blogEngine.dal.PostRepository;
 import com.blog.blogEngine.dal.UserRepository;
-import com.blog.blogEngine.model.Blog;
 import com.blog.blogEngine.model.Comment;
 import com.blog.blogEngine.model.Post;
 import com.blog.blogEngine.model.User;
-import com.blog.blogEngine.response.exceptions.BlogNotFoundException;
 import com.blog.blogEngine.response.exceptions.CommentCreationException;
-import com.blog.blogEngine.response.exceptions.PostAlreadyPublishedException;
-import com.blog.blogEngine.response.exceptions.PostCreationException;
 import com.blog.blogEngine.response.exceptions.PostNotFoundException;
-import com.blog.blogEngine.response.exceptions.PostUpdationException;
 import com.blog.blogEngine.response.exceptions.UserNotFoundException;
-import com.blog.blogEngine.response.model.BlogResponse;
 import com.blog.blogEngine.response.model.CommentResponse;
-import com.blog.blogEngine.response.model.ListPostResponse;
-import com.blog.blogEngine.response.model.PostResponse;
-import com.blog.blogEngine.response.model.UserResponse;
 import com.blog.blogEngine.util.ErrorCode;
 import com.blog.blogEngine.util.ModelConvertor;
 
@@ -35,13 +25,14 @@ import com.blog.blogEngine.util.ModelConvertor;
 public class CommentService {
 	
 	@Autowired
-	private UserRepository userRepository;
+	public UserRepository userRepository;
 	
 	@Autowired
-	private PostRepository postRepository;
+	public PostRepository postRepository;
 	
 	@Autowired
-	private CommentRepository commentRepository;
+	public CommentRepository commentRepository;
+
 	
 	public List<CommentResponse> getAllCommentsForPost(String postId) throws PostNotFoundException  {
 		Optional<Post> post = postRepository.findById(postId);
