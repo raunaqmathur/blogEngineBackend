@@ -12,20 +12,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.blog.blogEngine.resource.model.BlogRegistrationData;
-import com.blog.blogEngine.resource.model.RegistrationData;
-import com.blog.blogEngine.resource.model.SignInData;
-import com.blog.blogEngine.response.exceptions.*;
+import com.blog.blogEngine.response.exceptions.BlogAlreadyCreatedException;
+import com.blog.blogEngine.response.exceptions.BlogCreationException;
+import com.blog.blogEngine.response.exceptions.BlogNotFoundException;
+import com.blog.blogEngine.response.exceptions.UserNotFoundException;
 import com.blog.blogEngine.response.model.BlogResponse;
-import com.blog.blogEngine.response.model.UserResponse;
 import com.blog.blogEngine.service.BlogService;
-import com.blog.blogEngine.service.UserService;
 import com.blog.blogEngine.util.ErrorCode;
 
 @Controller
 public class BlogResource {
-
-	  @Autowired
-	  UserService userService;
 	  
 	  @Autowired
 	  BlogService blogService;

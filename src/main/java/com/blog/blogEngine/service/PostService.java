@@ -31,13 +31,13 @@ import com.blog.blogEngine.util.ModelConvertor;
 public class PostService {
 	
 	@Autowired
-	private BlogRepository blogRepository;
+	public BlogRepository blogRepository;
 	
 	@Autowired
-	private UserRepository userRepository;
+	public UserRepository userRepository;
 	
 	@Autowired
-	private PostRepository postRepository;
+	public PostRepository postRepository;
 	
 	public ListPostResponse getAllPublishedPostByUser(String userName) throws UserNotFoundException {
 		User user = userRepository.findByUserName(userName);
@@ -62,7 +62,7 @@ public class PostService {
 			if(blog == null) {
 				throw new BlogNotFoundException("blog not found", ErrorCode.BLOG_NOT_FOUND);
 			} else {
-				Post post = new Post(user, blog, message, title, themeId, new Date(), 1);
+				Post post = new Post(user, blog, message, title, new Date(), false, null, themeId, 1);
 				Post postSaved = postRepository.insert(post);
 				if(postSaved == null) {
 					throw new PostCreationException("error creating post", ErrorCode.POST_CREATION_ERROR);

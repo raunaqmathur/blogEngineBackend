@@ -21,10 +21,10 @@ import com.blog.blogEngine.util.ModelConvertor;
 public class BlogService {
 	
 	@Autowired
-	private BlogRepository blogRepository;
+	public BlogRepository blogRepository;
 	
 	@Autowired
-	private UserRepository userRepository;
+	public UserRepository userRepository;
 	
 	public BlogResponse findByUser(String userName) throws UserNotFoundException, BlogNotFoundException {
 		User user = userRepository.findByUserName(userName);

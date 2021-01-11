@@ -54,7 +54,7 @@ public class PostResource {
 					  postCreationData.getThemeId(), 
 					  postCreationData.getUserName());
 			  if(postResponse != null) {
-				  return new ResponseEntity<Object>(postResponse, new HttpHeaders(), HttpStatus.ACCEPTED);
+				  return new ResponseEntity<Object>(postResponse, new HttpHeaders(), HttpStatus.CREATED);
 			  } else {
 				  return new ResponseEntity<Object>(new PostCreationException("Error creating post", ErrorCode.POST_CREATION_ERROR), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
 			  }
@@ -127,7 +127,7 @@ public class PostResource {
 	  
 	  @PostMapping("/post/publish")
 	  @ResponseBody
-	  public ResponseEntity<Object> publishePost(@RequestParam(name = "postId", required = true) String postId) {
+	  public ResponseEntity<Object> publishPost(@RequestParam(name = "postId", required = true) String postId) {
 		int returnCode = 0;
 		try {
 			returnCode = postService.publish(postId);

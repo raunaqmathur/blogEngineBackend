@@ -38,4 +38,12 @@ public class PostUpdationData {
 	public void setId(String id) {
 		this.id = id;
 	}
+	public PostUpdationData(String userName, String message, String title, String themeId, String id) {
+		super();
+		this.userName = userName;
+		this.message = message;
+		this.title = title;
+		this.themeId = themeId;
+		this.id = id;
+	}
 }

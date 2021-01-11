@@ -113,15 +113,19 @@ public class Post implements Comparable<Post>{
 		return id;
 	}
 
-	public Post(User user, Blog blog, String message, String title, String themeId, Date dateCreated, int active) {
+	
+	public Post(User user, Blog blog, String message, String title, Date dateCreated, boolean published,
+			Date datePublished, String themeId, int active) {
 		super();
 		this.user = user;
 		this.blog = blog;
 		this.message = message;
 		this.title = title;
 		this.dateCreated = dateCreated;
-		this.active = active;
+		this.published = published;
+		this.datePublished = datePublished;
 		this.themeId = themeId;
+		this.active = active;
 	}
 
 	@Override
