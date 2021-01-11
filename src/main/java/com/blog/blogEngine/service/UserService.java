@@ -13,7 +13,7 @@ import com.blog.blogEngine.util.ModelConvertor;
 public class UserService {
 	
 	@Autowired
-	private UserRepository userRepository;
+	public UserRepository userRepository;
 	
 	public UserResponse findByUserNameAndPassword(String userName, String password) {
 		User user = userRepository.findByUserNameAndPassword(userName, password);
