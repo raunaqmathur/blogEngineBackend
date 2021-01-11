@@ -1,7 +1,6 @@
 package com.blog.blogEngine.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +8,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.blog.blogEngine.dal.BlogRepository;
+import com.blog.blogEngine.dal.PostRepository;
+import com.blog.blogEngine.dal.UserRepository;
+import com.blog.blogEngine.model.Blog;
+import com.blog.blogEngine.model.Post;
+import com.blog.blogEngine.model.User;
 import com.blog.blogEngine.response.exceptions.BlogNotFoundException;
 import com.blog.blogEngine.response.exceptions.PostAlreadyPublishedException;
 import com.blog.blogEngine.response.exceptions.PostCreationException;
@@ -19,12 +24,6 @@ import com.blog.blogEngine.response.model.BlogResponse;
 import com.blog.blogEngine.response.model.ListPostResponse;
 import com.blog.blogEngine.response.model.PostResponse;
 import com.blog.blogEngine.response.model.UserResponse;
-import com.blog.blogEngine.model.Blog;
-import com.blog.blogEngine.model.Post;
-import com.blog.blogEngine.model.User;
-import com.blog.blogEngine.dal.BlogRepository;
-import com.blog.blogEngine.dal.PostRepository;
-import com.blog.blogEngine.dal.UserRepository;
 import com.blog.blogEngine.util.ErrorCode;
 import com.blog.blogEngine.util.ModelConvertor;
 

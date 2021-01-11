@@ -14,4 +14,6 @@ public class ErrorCode {
 	public static final int POST_CREATION_ERROR = 30003;
 	public static final int POST_UPDATION_ERROR = 30004;
 	public static final int POST_ALREADY_PUBLISHED = 30005;
+	
+	public static final int COMMENT_CREATION_ERROR = 40001;
 }
