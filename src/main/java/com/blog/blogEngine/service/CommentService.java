@@ -33,7 +33,11 @@ public class CommentService {
 	@Autowired
 	public CommentRepository commentRepository;
 
-	
+	/**
+	   * This method is get all comments for a post
+	   * @param postId This is the first parameter to getAllCommentsForPost method
+	   * @return List<CommentResponse> This returns list of all comments.
+	*/
 	public List<CommentResponse> getAllCommentsForPost(String postId) throws PostNotFoundException  {
 		Optional<Post> post = postRepository.findById(postId);
 		if(post.isPresent()) {
@@ -46,7 +50,13 @@ public class CommentService {
 		throw new PostNotFoundException("post not found", ErrorCode.POST_NOT_FOUND);
 	}
 	
-	
+	/**
+	   * This method is to create new post.
+	   * @param message This is the first parameter to insert method
+	   * @param userName This is the first parameter to insert method
+	   * @param postId This is the first parameter to insert method
+	   * @return List<CommentResponse> This returns the comment object insert or raise a respective excpetion.
+	*/
 	public CommentResponse insert(String message, String userName, String postId) throws UserNotFoundException, PostNotFoundException, CommentCreationException {
 		User user = userRepository.findByUserName(userName);
 		if(user != null && user.getActive() == 1) {

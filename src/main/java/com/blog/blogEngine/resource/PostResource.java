@@ -1,7 +1,5 @@
 package com.blog.blogEngine.resource;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,6 +31,11 @@ public class PostResource {
 	  @Autowired
 	  PostService postService;
 	
+	  /**
+	   * This method is to get all published posts by user.
+	   * @param userName This is the first parameter to getAllPublishedPostByUser method
+	   * @return ResponseEntity<Object> This returns list of posts, header and HttpStatus.
+	   */
 	  @GetMapping("/post/user/getAllpublished")
 	  @ResponseBody
 	  public ResponseEntity<Object> getAllPublishedPostByUser(@RequestParam(name = "userName", required = true) String userName) {
@@ -46,6 +49,11 @@ public class PostResource {
 		  
 	  }
 	  
+	  /**
+	   * This method is create Post.
+	   * @param PostCreationData This is the first parameter to createPost method
+	   * @return ResponseEntity<Object> This returns post object, header and HttpStatus.
+	   */
 	  @PostMapping("/post/create")
 	  @ResponseBody
 	  public ResponseEntity<Object> createPost(@RequestBody PostCreationData postCreationData) {
@@ -68,6 +76,11 @@ public class PostResource {
 		  
 	  }  
 	  
+	  /**
+	   * This method is update Post.
+	   * @param PostUpdationData This is the first parameter to updatePost method
+	   * @return ResponseEntity<Object> This returns post object, header and HttpStatus.
+	   */
 	  @PostMapping("/post/update")
 	  @ResponseBody
 	  public ResponseEntity<Object> updatePost(@RequestBody PostUpdationData postUpdationData) {
@@ -86,6 +99,11 @@ public class PostResource {
 		  }
 	  }  
 	  
+	  /**
+	   * This method is delete Post.
+	   * @param postId This is the first parameter to deletePost method
+	   * @return ResponseEntity<Object> This returns String, header and HttpStatus.
+	   */
 	  @PostMapping("/post/delete")
 	  @ResponseBody
 	  public ResponseEntity<Object> deletePost(@RequestParam(name = "postId", required = true) String postId) {
@@ -103,6 +121,11 @@ public class PostResource {
 		}
 	  }
 	  
+	  /**
+	   * This method is to get published posts between start and end date.
+	   * @param GetPublishedPostData This is the first parameter to getPublishedPosts method
+	   * @return ResponseEntity<Object> This returns list of posts, header and HttpStatus.
+	   */
 	  @PostMapping("/post/getAllpublished")
 	  @ResponseBody
 	  public ResponseEntity<Object> getPublishedPosts(@RequestBody GetPublishedPostData getPublishedPostData) {
@@ -114,6 +137,11 @@ public class PostResource {
 		} 
 	  }
 	  
+	  /**
+	   * This method is to get all unpublished posts by user.
+	   * @param userName This is the first parameter to getUnPublishedPosts method
+	   * @return ResponseEntity<Object> This returns list of posts, header and HttpStatus.
+	   */
 	  @PostMapping("/post/getAllUnpublished")
 	  @ResponseBody
 	  public ResponseEntity<Object> getUnPublishedPosts(@RequestParam(name = "userName", required = true) String userName) {
@@ -125,6 +153,11 @@ public class PostResource {
 		} 
 	  }
 	  
+	  /**
+	   * This method is to publish post.
+	   * @param postId This is the first parameter to publishPost method
+	   * @return ResponseEntity<Object> This returns String, header and HttpStatus.
+	   */
 	  @PostMapping("/post/publish")
 	  @ResponseBody
 	  public ResponseEntity<Object> publishPost(@RequestParam(name = "postId", required = true) String postId) {

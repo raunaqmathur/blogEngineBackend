@@ -38,6 +38,11 @@ public class CommentResource {
 	  @Autowired
 	  CommentService commentService;
 	
+	  /**
+	   * This method is to get all comments for a post.
+	   * @param postId This is the first parameter to getAllCommentsForPost method
+	   * @return ResponseEntity<Object> This returns list of comments, header and HttpStatus.
+	   */
 	  @GetMapping("/comment/getAllForPost")
 	  @ResponseBody
 	  public ResponseEntity<Object> getAllCommentsForPost(@RequestParam(name = "postId", required = true) String postId) {
@@ -51,6 +56,11 @@ public class CommentResource {
 		  
 	  }
 	  
+	  /**
+	   * This method is to create a comment on a post.
+	   * @param CommentCreationData This is the first parameter to createPost method
+	   * @return ResponseEntity<Object> This returns list of comment object, header and HttpStatus.
+	   */
 	  @PostMapping("/comment/create")
 	  @ResponseBody
 	  public ResponseEntity<Object> createPost(@RequestBody CommentCreationData commentCreationData) {

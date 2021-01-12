@@ -39,6 +39,11 @@ public class PostService {
 	@Autowired
 	public PostRepository postRepository;
 	
+	/**
+	   * This method is to fetch all published posts by an user.
+	   * @param userName This is the first parameter to getAllPublishedPostByUser method
+	   * @return ListPostResponse This returns list of posts.
+	*/
 	public ListPostResponse getAllPublishedPostByUser(String userName) throws UserNotFoundException {
 		User user = userRepository.findByUserName(userName);
 		if(user != null) {
@@ -54,7 +59,14 @@ public class PostService {
 		throw new UserNotFoundException("user not found", ErrorCode.USER_NOT_FOUND);
 	}
 	
-	
+	/**
+	   * This method is to insert a new post.
+	   * @param message This is the first parameter to insert method
+	   * @param title This is the second parameter to insert method
+	   * @param themeId This is the third parameter to insert method
+	   * @param userName This is the fourth parameter to insert method
+	   * @return PostResponse This returns the post object.
+	*/
 	public PostResponse insert(String message, String title, String themeId, String userName) throws UserNotFoundException, BlogNotFoundException, PostCreationException {
 		User user = userRepository.findByUserName(userName);
 		if(user != null && user.getActive() == 1) {
@@ -75,7 +87,15 @@ public class PostService {
 		}
 	}
 	
-	
+	/**
+	   * This method is to update a post.
+	   * @param message This is the first parameter to update method
+	   * @param title This is the second parameter to update method
+	   * @param themeId This is the third parameter to update method
+	   * @param userName This is the fourth parameter to update method
+	   * @param id This is the fifth parameter to update method
+	   * @return PostResponse This returns the updated post object.
+	*/
 	public PostResponse update(String message, String title, String themeId, String userName, String id) throws UserNotFoundException, BlogNotFoundException, PostNotFoundException, PostUpdationException, PostAlreadyPublishedException {
 		User user = userRepository.findByUserName(userName);
 		if(user != null && user.getActive() == 1) {
@@ -104,6 +124,11 @@ public class PostService {
 		}
 	}
 	
+	/**
+	   * This method is to delete a post.
+	   * @param id This is the first parameter to delete method
+	   * @return int This returns 0/1 or throw exception accordingly.
+	*/
 	public int delete(String postId) throws PostUpdationException, PostNotFoundException {
 		Optional<Post> postSaved = postRepository.findById(postId);
 		if(postSaved.isPresent() && postSaved.get().getActive() == 1) {
@@ -118,6 +143,12 @@ public class PostService {
 		}
 	}
 	
+	/**
+	   * This method is to fetch all published posts between start and end date.
+	   * @param startDate This is the first parameter to getPublishedPosts method
+	   * @param endDate This is the first parameter to getPublishedPosts method
+	   * @return ListPostResponse This returns list of posts.
+	*/
 	public ListPostResponse getPublishedPosts(Date startDate, Date endDate) {
 		List<Post> listPosts = postRepository.getAllPublishedPostBetweenDates(startDate, endDate);
 		List<PostResponse> lstPostResponse = new ArrayList<PostResponse>();
@@ -126,6 +157,11 @@ public class PostService {
 		return ModelConvertor.postToListPostResponseConvertor(lstPostResponse, null, null);
 	}
 	
+	/**
+	   * This method is to fetch all published posts for an user.
+	   * @param userName This is the first parameter to getUnPublishedPosts method
+	   * @return ListPostResponse This returns list of posts.
+	*/
 	public ListPostResponse getUnPublishedPosts(String userName) throws UserNotFoundException {
 		
 		User user = userRepository.findByUserName(userName);

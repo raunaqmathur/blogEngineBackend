@@ -25,6 +25,11 @@ public class UserResource {
 	  @Autowired
 	  UserService userService;
 	
+	  /**
+	   * This method is used to Login an user.
+	   * @param SignInData This is the first paramter to signIn method
+	   * @return ResponseEntity<Object> This returns userObject, header and HttpStatus.
+	   */
 	  @PostMapping("/signin")
 	  @ResponseBody
 	  public ResponseEntity<Object> signIn(@RequestBody SignInData signInData) {
@@ -35,6 +40,11 @@ public class UserResource {
 	      return new ResponseEntity<Object>(userReturned, new HttpHeaders(), HttpStatus.ACCEPTED);
 	  }
 	  
+	  /**
+	   * This method is used to register an user.
+	   * @param RegistrationData This is the first paramter to register method
+	   * @return ResponseEntity<Object> This returns userObject, header and HttpStatus.
+	   */
 	  @PostMapping("/register")
 	  @ResponseBody
 	  public ResponseEntity<Object> register(@RequestBody RegistrationData registrationData) {
@@ -52,6 +62,11 @@ public class UserResource {
 		  }
 	  }
 	  
+	  /**
+	   * This method is used to delete an user account.
+	   * @param userName This is the first paramter to deleteAccount method
+	   * @return ResponseEntity<Object> This returns string, header and HttpStatus.
+	   */
 	  @PostMapping("/deleteAccount")
 	  @ResponseBody
 	  public ResponseEntity<Object> deleteAccount(@RequestParam(name = "userName", required = true) String userName) {

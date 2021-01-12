@@ -26,6 +26,11 @@ public class BlogResource {
 	  @Autowired
 	  BlogService blogService;
 	
+	  /**
+	   * This method is fetch blog details based on userName provided.
+	   * @param userName This is the first paramter to deleteAccount method
+	   * @return ResponseEntity<Object> This returns blog object, header and HttpStatus.
+	   */
 	  @GetMapping("/blog")
 	  @ResponseBody
 	  public ResponseEntity<Object> getBlogByUser(@RequestParam(name = "userName", required = true) String userName) {
@@ -42,6 +47,11 @@ public class BlogResource {
 		  
 	  }
 	  
+	  /**
+	   * This method is create blog.
+	   * @param BlogRegistrationData This is the first paramter to deleteAccount method
+	   * @return ResponseEntity<Object> This returns blog object, header and HttpStatus.
+	   */
 	  @PostMapping("/blog/create")
 	  @ResponseBody
 	  public ResponseEntity<Object> register(@RequestBody BlogRegistrationData blogRegistrationData) {

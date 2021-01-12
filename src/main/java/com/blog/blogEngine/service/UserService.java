@@ -15,6 +15,12 @@ public class UserService {
 	@Autowired
 	public UserRepository userRepository;
 	
+	/**
+	   * This method is finds the user object based on userName and password provided.
+	   * @param userName This is the first parameter to findByUserNameAndPassword method
+	   * @param password This is the second parameter to findByUserNameAndPassword method
+	   * @return ResponseEntity<Object> This returns UserResponse object if found or throw respective exception.
+	*/
 	public UserResponse findByUserNameAndPassword(String userName, String password) {
 		User user = userRepository.findByUserNameAndPassword(userName, password);
 		if(user != null  && user.getActive() == 1) {
@@ -23,6 +29,11 @@ public class UserService {
 		return null;
 	}
 	
+	/**
+	   * This method is finds the user object based on userName.
+	   * @param userName This is the first parameter to findByUserName method
+	   * @return ResponseEntity<Object> This returns UserResponse object if found or throw respective exception.
+	*/
 	public UserResponse findByUserName(String userName) {
 		User user = userRepository.findByUserName(userName);
 		if(user != null && user.getActive() == 1) {
@@ -31,7 +42,15 @@ public class UserService {
 		return null;
 	}
 	
-	
+	/**
+	   * This method is used to insert a new user.
+	   * @param firstName This is the first parameter to insert method
+	   * @param lastName This is the second parameter to insert method
+	   * @param userName This is the third parameter to insert method
+	   * @param password This is the fourth parameter to insert method
+	   * @param email This is the fifth parameter to insert method
+	   * @return ResponseEntity<Object> This returns UserResponse object or throw respective exception.
+	*/
 	public UserResponse insert(String firstName, String lastName, String userName, String password, String email) {
 		User newUser = new User(firstName, lastName, userName, password, email, new Date(), 1);
 		User user = userRepository.insert(newUser);
@@ -41,6 +60,11 @@ public class UserService {
 		return null;
 	}
 	
+	/**
+	   * This method is used to remove a user.
+	   * @param userName This is the first parameter to deleteAccount method
+	   * @return ResponseEntity<Object> This returns int.
+	*/
 	public int deleteAccount(String userName) {
 		User user = userRepository.findByUserName(userName);
 		if(user != null && user.getActive() == 1) {
