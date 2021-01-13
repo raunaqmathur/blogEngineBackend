@@ -30,7 +30,7 @@ public class PostCreationData {
 	public void setThemeId(String themeId) {
 		this.themeId = themeId;
 	}
-	
+	public PostCreationData() {}
 	public PostCreationData(String userName, String message, String title, String themeId) {
 		super();
 		this.userName = userName;

@@ -8,6 +8,8 @@ public class RegistrationData {
 	public String userName;
 	public String password;
 	public String email;
+	public String blogName;
+	public String website;
 	
 	public String getFirstName() {
 		return firstName;
@@ -38,5 +40,17 @@ public class RegistrationData {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getBlogName() {
+		return blogName;
+	}
+	public void setBlogName(String blogName) {
+		this.blogName = blogName;
+	}
+	public String getWebsite() {
+		return website;
+	}
+	public void setWebsite(String website) {
+		this.website = website;
 	}
 }

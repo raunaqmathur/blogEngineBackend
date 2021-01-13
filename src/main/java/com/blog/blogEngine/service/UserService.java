@@ -4,6 +4,10 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.blog.blogEngine.response.exceptions.BlogAlreadyCreatedException;
+import com.blog.blogEngine.response.exceptions.BlogCreationException;
+import com.blog.blogEngine.response.exceptions.UserNotFoundException;
 import com.blog.blogEngine.response.model.UserResponse;
 import com.blog.blogEngine.model.User;
 import com.blog.blogEngine.dal.UserRepository;
@@ -14,6 +18,9 @@ public class UserService {
 	
 	@Autowired
 	public UserRepository userRepository;
+	
+	@Autowired
+	public BlogService blogService;
 	
 	/**
 	   * This method is finds the user object based on userName and password provided.
@@ -43,18 +50,27 @@ public class UserService {
 	}
 	
 	/**
-	   * This method is used to insert a new user.
+	   * This method is used to insert a new user and create a new blog.
 	   * @param firstName This is the first parameter to insert method
 	   * @param lastName This is the second parameter to insert method
 	   * @param userName This is the third parameter to insert method
 	   * @param password This is the fourth parameter to insert method
 	   * @param email This is the fifth parameter to insert method
+	   * @param blogName This is the fifth parameter to insert method
+	   * @param website This is the fifth parameter to insert method
 	   * @return ResponseEntity<Object> This returns UserResponse object or throw respective exception.
 	*/
-	public UserResponse insert(String firstName, String lastName, String userName, String password, String email) {
+	public UserResponse insert(String firstName, String lastName, String userName, String password, String email,
+			String blogName, String website) 
+			throws UserNotFoundException, BlogCreationException, BlogAlreadyCreatedException {
 		User newUser = new User(firstName, lastName, userName, password, email, new Date(), 1);
 		User user = userRepository.insert(newUser);
 		if(user != null) {
+			try {
+				blogService.insert(website, blogName, userName);
+			} catch (UserNotFoundException | BlogCreationException | BlogAlreadyCreatedException e) {
+				throw e;
+			} 
 			return ModelConvertor.userToUserResponseConvertor(user);
 		}
 		return null;

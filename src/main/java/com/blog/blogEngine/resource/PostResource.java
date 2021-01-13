@@ -62,6 +62,9 @@ public class PostResource {
 	  @PostMapping("/post/create")
 	  @ResponseBody
 	  public ResponseEntity<Object> createPost(@RequestBody PostCreationData postCreationData) {
+		  logger.info("postCreationData: " + postCreationData.getMessage() + ", " + postCreationData.getTitle()+ ", " + 
+				  postCreationData.getThemeId() + ", " + 
+				  postCreationData.getUserName());
 		  try {
 			  PostResponse postResponse = postService.insert(postCreationData.getMessage(), postCreationData.getTitle(),
 					  postCreationData.getThemeId(), 
@@ -186,7 +189,7 @@ public class PostResource {
 	   * @param userName This is the first parameter to getUnPublishedPosts method
 	   * @return ResponseEntity<Object> This returns list of posts, header and HttpStatus.
 	   */
-	  @PostMapping("/post/getAllUnpublished")
+	  @GetMapping("/post/getAllUnpublished")
 	  @ResponseBody
 	  public ResponseEntity<Object> getUnPublishedPosts(@RequestParam(name = "userName", required = true) String userName) {
 		try {

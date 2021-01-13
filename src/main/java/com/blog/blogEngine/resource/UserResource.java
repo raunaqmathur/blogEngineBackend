@@ -54,8 +54,14 @@ public class UserResource {
 		  if(userReturned != null) {
 			  return new ResponseEntity<Object>(new UserAlreadyExistsException("username already exists", ErrorCode.USER_ALREADY_EXISTS), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		  } else {
-			  UserResponse userSaved = userService.insert(registrationData.getFirstName(), registrationData.getLastName(), 
-					  registrationData.getUserName(), registrationData.getPassword(), registrationData.getEmail());
+			  UserResponse userSaved;
+			try {
+				userSaved = userService.insert(registrationData.getFirstName(), registrationData.getLastName(), 
+						  registrationData.getUserName(), registrationData.getPassword(), registrationData.getEmail(), 
+						  registrationData.getBlogName(), registrationData.getWebsite());
+				} catch (UserNotFoundException | BlogCreationException | BlogAlreadyCreatedException e) {
+					return new ResponseEntity<Object>(e, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+				}
 			  if(userSaved != null) {
 				  return new ResponseEntity<Object>(userSaved, new HttpHeaders(), HttpStatus.CREATED);
 			  } else {

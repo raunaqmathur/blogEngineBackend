@@ -24,6 +24,9 @@ public class BlogRegistrationData {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public BlogRegistrationData() {}
+	
 	public BlogRegistrationData(String userName, String website, String name) {
 		super();
 		this.userName = userName;

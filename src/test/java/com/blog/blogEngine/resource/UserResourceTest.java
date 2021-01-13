@@ -18,7 +18,12 @@ import com.blog.blogEngine.dal.UserRepository;
 import com.blog.blogEngine.model.User;
 import com.blog.blogEngine.resource.model.RegistrationData;
 import com.blog.blogEngine.resource.model.SignInData;
+import com.blog.blogEngine.response.exceptions.BlogAlreadyCreatedException;
+import com.blog.blogEngine.response.exceptions.BlogCreationException;
+import com.blog.blogEngine.response.exceptions.UserNotFoundException;
+import com.blog.blogEngine.response.model.BlogResponse;
 import com.blog.blogEngine.response.model.UserResponse;
+import com.blog.blogEngine.service.BlogService;
 import com.blog.blogEngine.service.UserService;
 import org.apache.logging.log4j.LogManager;  
 import org.apache.logging.log4j.Logger;  
@@ -29,7 +34,7 @@ public class UserResourceTest {
 	private static final Logger logger = LogManager.getLogger(UserResourceTest.class);  
 	UserResource userResource;
 	UserService userService;
-	
+	BlogService blogService;
 	
 	UserRepository userRepository;
 	
@@ -37,8 +42,10 @@ public class UserResourceTest {
 	public void setup() {
 		userResource = new UserResource();
 		userService = new UserService();
+		blogService = Mockito.mock(BlogService.class);
 		userRepository = Mockito.mock(UserRepository.class);
 		userService.userRepository = userRepository;
+		userService.blogService = blogService;
 		userResource.userService = userService;
 	}
 	
@@ -73,7 +80,7 @@ public class UserResourceTest {
     }
 	
 	@Test
-    public void verifyRegisterPass() {
+    public void verifyRegisterPass() throws UserNotFoundException, BlogCreationException, BlogAlreadyCreatedException {
 		logger.info("Starting Test verifyRegisterPass");
 		RegistrationData registrationData = new RegistrationData();
 		registrationData.setUserName("test");
@@ -84,6 +91,7 @@ public class UserResourceTest {
 		User userTest = new User("firstName", "lastName", "test", "password", "email", new Date(),1);
 		when(userRepository.findByUserName(anyString())).thenReturn(null);
 		when(userRepository.insert(any(User.class))).thenReturn(userTest);
+		when(blogService.insert(anyString(), anyString(), anyString())).thenReturn(Mockito.mock(BlogResponse.class));
 		ResponseEntity<Object> response = userResource.register(registrationData);
 		assertEquals(response.getStatusCode(), HttpStatus.CREATED);
 		UserResponse userResponse = (UserResponse)response.getBody();
