@@ -1,10 +1,13 @@
 package com.blog.blogEngine.resource;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,8 +29,10 @@ import com.blog.blogEngine.service.PostService;
 import com.blog.blogEngine.util.ErrorCode;
 
 @Controller
+@CrossOrigin(origins = "*")
 public class PostResource {
-
+	  private static final Logger logger = LogManager.getLogger(PostResource.class);
+	  
 	  @Autowired
 	  PostService postService;
 	
@@ -81,6 +86,28 @@ public class PostResource {
 	   * @param PostUpdationData This is the first parameter to updatePost method
 	   * @return ResponseEntity<Object> This returns post object, header and HttpStatus.
 	   */
+	  @GetMapping("/post/getPost")
+	  @ResponseBody
+	  public ResponseEntity<Object> getPost(@RequestParam(name = "postId", required = true) String postId) {
+		  try {
+			  PostResponse postResponse = postService.getPost(postId);
+			  if(postResponse != null) {
+				  return new ResponseEntity<Object>(postResponse, new HttpHeaders(), HttpStatus.ACCEPTED);
+			  } else {
+				  return new ResponseEntity<Object>(new PostCreationException("Error creating post", ErrorCode.POST_UPDATION_ERROR), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+			  }
+		  } catch(PostNotFoundException e) {
+			  return new ResponseEntity<Object>(e, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		  } catch (PostUpdationException e) {
+			return new ResponseEntity<Object>(e, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+		  }
+	  }  
+	  
+	  /**
+	   * This method is update Post.
+	   * @param PostUpdationData This is the first parameter to updatePost method
+	   * @return ResponseEntity<Object> This returns post object, header and HttpStatus.
+	   */
 	  @PostMapping("/post/update")
 	  @ResponseBody
 	  public ResponseEntity<Object> updatePost(@RequestBody PostUpdationData postUpdationData) {
@@ -123,14 +150,31 @@ public class PostResource {
 	  
 	  /**
 	   * This method is to get published posts between start and end date.
-	   * @param GetPublishedPostData This is the first parameter to getPublishedPosts method
+	   * @param GetPublishedPostData This is the first parameter to getPublishedPostsWithDate method
+	   * @return ResponseEntity<Object> This returns list of posts, header and HttpStatus.
+	   */
+	  @PostMapping("/post/getAllpublishedWithDate")
+	  @ResponseBody
+	  public ResponseEntity<Object> getPublishedPostsWithDate(@RequestBody GetPublishedPostData getPublishedPostData) {
+		logger.info("called getPublishedPosts with: " + getPublishedPostData.getStartDate() + ",  " + getPublishedPostData.getEndDate());
+		try {
+			ListPostResponse lstPostResponse = postService.getPublishedPostsWithDate(getPublishedPostData.getStartDate(), getPublishedPostData.getEndDate());
+		    return new ResponseEntity<Object>(lstPostResponse, new HttpHeaders(), HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(e, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+		} 
+	  }
+	  
+	  /**
+	   * This method is to get published posts .
 	   * @return ResponseEntity<Object> This returns list of posts, header and HttpStatus.
 	   */
 	  @PostMapping("/post/getAllpublished")
 	  @ResponseBody
-	  public ResponseEntity<Object> getPublishedPosts(@RequestBody GetPublishedPostData getPublishedPostData) {
+	  public ResponseEntity<Object> getPublishedPosts() {
+		logger.info("called getPublishedPosts ");
 		try {
-			ListPostResponse lstPostResponse = postService.getPublishedPosts(getPublishedPostData.getStartDate(), getPublishedPostData.getEndDate());
+			ListPostResponse lstPostResponse = postService.getPublishedPosts();
 		    return new ResponseEntity<Object>(lstPostResponse, new HttpHeaders(), HttpStatus.ACCEPTED);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(e, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);

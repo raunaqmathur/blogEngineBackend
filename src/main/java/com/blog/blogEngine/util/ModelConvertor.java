@@ -38,7 +38,8 @@ public class ModelConvertor {
 				post.getId(),
 				post.getDatePublished(),
 				post.isPublished(),
-				post.getActive());
+				post.getActive(),
+				userToUserResponseConvertor(post.getUser()));
 	}
 	
 	public static ListPostResponse postToListPostResponseConvertor(List<PostResponse> lstPostResponse, 

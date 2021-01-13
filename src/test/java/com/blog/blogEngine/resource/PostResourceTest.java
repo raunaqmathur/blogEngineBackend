@@ -128,8 +128,8 @@ public class PostResourceTest {
     }
 	
 	@Test
-    public void verifyGetPublishedPostsPass() {
-		logger.info("Starting Test verifyGetPublishedPostsPass");
+    public void verifyGetPublishedPostsWithDatePass() {
+		logger.info("Starting Test verifyGetPublishedPostsWithDatePass");
 		GetPublishedPostData getPublishedPostData = new GetPublishedPostData();
 		getPublishedPostData.setStartDate(new Date());
 		getPublishedPostData.setEndDate(new Date());
@@ -144,9 +144,9 @@ public class PostResourceTest {
 		
 		when(postRepository.getAllPublishedPostByUserName(anyString())).thenReturn(lstPost);
 		
-		ResponseEntity<Object> response = postResource.getPublishedPosts(getPublishedPostData);
+		ResponseEntity<Object> response = postResource.getPublishedPostsWithDate(getPublishedPostData);
 		assertEquals(response.getStatusCode(), HttpStatus.ACCEPTED);			
-		logger.info("Completed Test verifyGetPublishedPostsPass");
+		logger.info("Completed Test verifyGetPublishedPostsWithDatePass");
     }
 	
 	

@@ -1,6 +1,8 @@
 package com.blog.blogEngine.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,13 @@ public class BlogService {
 		throw new UserNotFoundException("user not found", ErrorCode.USER_NOT_FOUND);
 	}
 	
+	public List<BlogResponse> findAll() {
+		List<Blog> lstBlog = blogRepository.findAll();
+		List<BlogResponse> lstBlogResponse = new ArrayList<>();
+		for(Blog blg : lstBlog)
+			lstBlogResponse.add(ModelConvertor.blogToBlogResponseConvertor(blg));
+		return lstBlogResponse;
+	}
 	
 	public BlogResponse insert(String website, String name, String userName) throws UserNotFoundException, BlogCreationException, BlogAlreadyCreatedException {
 		User user = userRepository.findByUserName(userName);

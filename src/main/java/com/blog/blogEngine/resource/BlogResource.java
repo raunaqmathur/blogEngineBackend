@@ -1,10 +1,13 @@
 package com.blog.blogEngine.resource;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +24,7 @@ import com.blog.blogEngine.service.BlogService;
 import com.blog.blogEngine.util.ErrorCode;
 
 @Controller
+@CrossOrigin(origins = "*")
 public class BlogResource {
 	  
 	  @Autowired
@@ -45,6 +49,18 @@ public class BlogResource {
 					  ErrorCode.BLOG_NOT_FOUND), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 		  
+	  }
+	  
+	  /**
+	   * This method is fetch all blogs details.
+	   * @return ResponseEntity<Object> This returns list of blogs, header and HttpStatus.
+	   */
+	  @GetMapping("/blogs")
+	  @ResponseBody
+	  public ResponseEntity<Object> getAllBlogs() {
+		  List<BlogResponse> blogResonse;
+		  blogResonse = blogService.findAll();
+		  return new ResponseEntity<Object>(blogResonse, new HttpHeaders(), HttpStatus.ACCEPTED);
 	  }
 	  
 	  /**

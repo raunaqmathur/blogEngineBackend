@@ -23,6 +23,10 @@ public interface PostRepository extends MongoRepository<Post, String>{
 			sort = "{ 'datePublished' : -1 }")
 	public List<Post> getAllPublishedPostBetweenDates(Date startDate, Date endDate);
 	
+	@Query(value = "{ 'published' : true, 'active' : 1 }",
+			sort = "{ 'datePublished' : -1 }")
+	public List<Post> getAllPublishedPost();
+	
 	@Query(value = "{ 'user': ?0, 'published' : false, 'active' : 1 }",
 			sort = "{ 'dateCreated' : -1 }")
 	public List<Post> getAllUnpublishedPostByUserName(String userId);

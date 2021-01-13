@@ -144,13 +144,39 @@ public class PostService {
 	}
 	
 	/**
+	   * This method is to get a post.
+	   * @param id This is the first parameter to delete method
+	   * @return int This returns 0/1 or throw exception accordingly.
+	*/
+	public PostResponse getPost(String postId) throws PostUpdationException, PostNotFoundException {
+		Optional<Post> postSaved = postRepository.findById(postId);
+		if(postSaved.isPresent() && postSaved.get().getActive() == 1) {
+			return ModelConvertor.postToPostResponseConvertor(postSaved.get());
+		} else {
+			throw new PostNotFoundException("Post not found", ErrorCode.POST_NOT_FOUND);
+		}
+	}
+	
+	/**
 	   * This method is to fetch all published posts between start and end date.
-	   * @param startDate This is the first parameter to getPublishedPosts method
+	   * @param startDate This is the first parameter to getPublishedPostsWithDate method
 	   * @param endDate This is the first parameter to getPublishedPosts method
 	   * @return ListPostResponse This returns list of posts.
 	*/
-	public ListPostResponse getPublishedPosts(Date startDate, Date endDate) {
+	public ListPostResponse getPublishedPostsWithDate(Date startDate, Date endDate) {
 		List<Post> listPosts = postRepository.getAllPublishedPostBetweenDates(startDate, endDate);
+		List<PostResponse> lstPostResponse = new ArrayList<PostResponse>();
+		for(Post post : listPosts)
+			lstPostResponse.add(ModelConvertor.postToPostResponseConvertor(post));
+		return ModelConvertor.postToListPostResponseConvertor(lstPostResponse, null, null);
+	}
+	
+	/**
+	   * This method is to fetch all published posts.
+	   * @return ListPostResponse This returns list of posts.
+	*/
+	public ListPostResponse getPublishedPosts() {
+		List<Post> listPosts = postRepository.getAllPublishedPost();
 		List<PostResponse> lstPostResponse = new ArrayList<PostResponse>();
 		for(Post post : listPosts)
 			lstPostResponse.add(ModelConvertor.postToPostResponseConvertor(post));

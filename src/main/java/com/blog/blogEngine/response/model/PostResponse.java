@@ -10,6 +10,7 @@ public class PostResponse {
 	private Date datePublished;
 	private boolean published;
 	private int active;
+	private UserResponse userResponse;
 	
 	public String getMessage() {
 		return message;
@@ -53,11 +54,16 @@ public class PostResponse {
 	}
 	public void setActive(int active) {
 		this.active = active;
+	}	
+	public UserResponse getUserResponse() {
+		return userResponse;
+	}
+	public void setUserResponse(UserResponse userResponse) {
+		this.userResponse = userResponse;
 	}
 	
-	
 	public PostResponse(String message, String title, Date dateCreated, String id, Date datePublished,
-			boolean published, int active) {
+			boolean published, int active, UserResponse userResponse) {
 		super();
 		this.message = message;
 		this.title = title;
@@ -66,6 +72,7 @@ public class PostResponse {
 		this.datePublished = datePublished;
 		this.published = published;
 		this.active = active;
+		this.userResponse = userResponse;
 	}
 	
 	
