@@ -114,6 +114,8 @@ public class PostResource {
 	  @PostMapping("/post/update")
 	  @ResponseBody
 	  public ResponseEntity<Object> updatePost(@RequestBody PostUpdationData postUpdationData) {
+		  logger.info("Post update was called with following input: " + postUpdationData.getMessage() + ", " 
+				  + postUpdationData.getTitle() + ", " + postUpdationData.getId());
 		  try {
 			  PostResponse postResponse = postService.update(postUpdationData.getMessage(), postUpdationData.getTitle(),
 					  postUpdationData.getThemeId(), postUpdationData.getUserName(), postUpdationData.getId());
